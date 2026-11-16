@@ -4,12 +4,12 @@ include("user.php");
 $LoginProcess = new Authentications();
 $user = new User();
 
-if (!isset($_SESSION["AdminLogged"]))
-    header("location:../login.php");
+requireLogin("AdminLogged", "../login.php");
 
 if (isset($_POST["btnAdminLogOut"])) {
     unset($_SESSION["AdminLogged"]);
     header("location:../login.php");
+    exit;
 }
 
 if (isset($_POST["btnAddNewUser"])) {
@@ -20,17 +20,7 @@ if (isset($_POST["btnAddNewUser"])) {
     $LoginProcess->mobileNumber = $_POST["txtRegisterMobile"];
     $LoginProcess->password = $_POST["txtRegisterPassword"];
     $LoginProcess->type = $_POST["txtRegisterType"];
-    $imageName = $_FILES["txtRegisterDisplayPicture"]["name"];
-    $fileInfo = new SplFileInfo($imageName);
-    echo $_FILES["txtRegisterDisplayPicture"]["tmp_name"];
-
-    if (!empty($_FILES["txtRegisterDisplayPicture"]["name"])) {
-        $LoginProcess->displayPicture = $_FILES["txtRegisterDisplayPicture"]["name"];
-        move_uploaded_file($_FILES["txtRegisterDisplayPicture"]["tmp_name"], "../img/" . $imageName);
-        echo "Phot Added";
-    } else {
-        $LoginProcess->displayPicture = "default.png";
-    }
+    $LoginProcess->displayPicture = saveUploadedImage("txtRegisterDisplayPicture", "../img") ?? "default.png";
 
     $LoginProcess->Register();
 }
@@ -132,14 +122,14 @@ if (isset($_GET["delete"])) {
                                         </span>
                                     </td>
                                     <td><?php echo htmlentities($id); ?></td>
-                                    <td><img src="../img/<?php echo $u->displayPicture ?>" alt="" srcset="" width="80px"></td>
-                                    <td><?php echo $u->fullName; ?></td>
-                                    <td><?php echo "$u->username"; ?></td>
-                                    <td><?php echo $u->email; ?></td>
-                                    <td><?php echo $u->mobileNumber; ?></td>
-                                    <td><?php echo $u->type; ?></td>
-                                    <td><?php echo $u->dateRegistered; ?></td>
-                                    <td><?php echo $u->dateUpdated; ?></td>
+                                    <td><img src="../img/<?php echo e($u->displayPicture ?: 'default.png') ?>" alt="" srcset="" width="80px"></td>
+                                    <td><?php echo e($u->fullName); ?></td>
+                                    <td><?php echo e($u->username); ?></td>
+                                    <td><?php echo e($u->email); ?></td>
+                                    <td><?php echo e($u->mobileNumber); ?></td>
+                                    <td><?php echo e($u->type); ?></td>
+                                    <td><?php echo e($u->dateRegistered); ?></td>
+                                    <td><?php echo e($u->dateUpdated); ?></td>
                                     <td>
                                         <a href="editUsers.php?edit=<?php echo $u->userId ?>" class="edit" data-toggle="modal"><i class="fas fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                         <a href="manageUsers.php?delete=<?php echo $u->userId ?>" id="btnOpenDeleteUserModal" class="delete" data-toggle="modal"><i class="fas fa-trash-can" data-toggle="tooltip" title="Delete"></i></a>

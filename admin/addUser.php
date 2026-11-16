@@ -8,7 +8,7 @@
                                                                         if (empty($_GET["edit"])) {
                                                                             echo "../img/default.png";
                                                                         } else {
-                                                                            echo "../img/", $user->displayPicture;
+                                                                            echo "../img/", e($user->displayPicture ?: "default.png");
                                                                         }
                                                                         ?>" height="300">
             </label>
@@ -47,28 +47,28 @@
             <label>
                 <input type="text" name="txtRegisterFullName" placeholder="Enter Full Name" value="<?php
                                                                                                     if (isset($user)) {
-                                                                                                        echo $user->fullName;
+                                                                                                        echo e($user->fullName);
                                                                                                     }
                                                                                                     ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterUsername" placeholder="Enter Username" value="<?php
                                                                                                     if (isset($user)) {
-                                                                                                        echo $user->username;
+                                                                                                        echo e($user->username);
                                                                                                     }
                                                                                                     ?>" />
             </label>
             <label>
                 <input type="email" name="txtRegisterEmail" placeholder="Enter Email" value="<?php
                                                                                                 if (isset($user)) {
-                                                                                                    echo $user->email;
+                                                                                                    echo e($user->email);
                                                                                                 }
                                                                                                 ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterMobile" placeholder="Enter Mobile Number" value="<?php
                                                                                                         if (isset($user)) {
-                                                                                                            echo $user->mobileNumber;
+                                                                                                            echo e($user->mobileNumber);
                                                                                                         }
                                                                                                         ?>" />
             </label><select name="txtRegisterType">
@@ -76,7 +76,7 @@
                                                         if (empty($_GET["edit"])) {
                                                             echo "";
                                                         } else {
-                                                            echo $user->type;
+                                                            echo e($user->type);
                                                         }
                                                         ?></option>
                 <option value="ADMIN">ADMIN</option>
@@ -87,11 +87,7 @@
                 <input onchange="onFileSelected(event)" type="file" name="txtRegisterDisplayPicture" placeholder="Upload Image" />
             </label>
             <label>
-                <input type="password" name="txtRegisterPassword" placeholder="Enter Password" value="<?php
-                                                                                                        if (isset($user)) {
-                                                                                                            echo $user->password;
-                                                                                                        }
-                                                                                                        ?>" />
+                <input type="password" name="txtRegisterPassword" placeholder="<?php echo empty($_GET["edit"]) ? "Enter Password" : "Leave empty to keep the password"; ?>" <?php if (empty($_GET["edit"])) echo "required"; ?> />
             </label>
             <button style="margin-top: 9px" name="btnAddNewUser" type="submit"><?php
                                                                                 if (empty($_GET["edit"])) {

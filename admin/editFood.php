@@ -1,7 +1,8 @@
 <?php
 session_start();
 include("food.php");
-$currentId = $_GET['editFood'];
+requireLogin("AdminLogged", "../login.php");
+$currentId = $_GET['editFood'] ?? null;
 
 if (isset($_GET['editFood'])) {
     $food = new Food();
@@ -19,14 +20,7 @@ if (isset($_POST["btnAddNewFood"])) {
     $food->foodCategory = $_POST["txtRegisterFoodCategory"];
     $food->offerAvailable = $_POST["txtRegisterFoodOffer"];
     $food->foodDescription = $_POST["txtRegisterFoodDescription"];
-    $imageName = $_FILES["txtRegisterFoodImage"]["name"];
-    $fileInfo = new SplFileInfo($imageName);
-    if (!empty($_FILES["txtRegisterFoodImage"]["name"])) {
-        $food->foodImage = $_FILES["txtRegisterFoodImage"]["name"];
-        move_uploaded_file($_FILES["txtRegisterFoodImage"]["tmp_name"], "../img/" . $imageName);
-    } else {
-        $food->foodImage = $getFood->foodImage;
-    }
+    $food->foodImage = saveUploadedImage("txtRegisterFoodImage", "../img") ?? $getFood->foodImage;
 
     $food->UpdateFood();
 }

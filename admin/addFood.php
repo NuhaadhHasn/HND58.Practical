@@ -8,7 +8,7 @@
                                                                         if (empty($_GET["editFood"])) {
                                                                             echo "../img/defaultFood.png";
                                                                         } else {
-                                                                            echo "../img/", $food->foodImage;
+                                                                            echo "../img/", e($food->foodImage ?: "defaultFood.png");
                                                                         }
                                                                         ?>" height="300">
             </label>
@@ -47,35 +47,35 @@
             <label>
                 <input type="text" name="txtRegisterFoodName" placeholder="Enter Food Name" value="<?php
                                                                                                     if (isset($food)) {
-                                                                                                        echo $food->foodName;
+                                                                                                        echo e($food->foodName);
                                                                                                     }
                                                                                                     ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterFoodDescription" placeholder="Enter Food Description" value="<?php
                                                                                                                     if (isset($food)) {
-                                                                                                                        echo $food->foodDescription;
+                                                                                                                        echo e($food->foodDescription);
                                                                                                                     }
                                                                                                                     ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterFoodCategory" placeholder="Enter Food Category" value="<?php
                                                                                                             if (isset($food)) {
-                                                                                                                echo $food->foodCategory;
+                                                                                                                echo e($food->foodCategory);
                                                                                                             }
                                                                                                             ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterFoodPrice" placeholder="Enter Food Price" value="<?php
                                                                                                         if (isset($food)) {
-                                                                                                            echo $food->foodPrice;
+                                                                                                            echo e($food->foodPrice);
                                                                                                         }
                                                                                                         ?>" />
             </label>
             <label>
                 <input type="text" name="txtRegisterFoodOffer" placeholder="Enter Food Offer" value="<?php
                                                                                                         if (isset($food)) {
-                                                                                                            echo $food->offerAvailable;
+                                                                                                            echo e($food->offerAvailable);
                                                                                                         }
                                                                                                         ?>" />
             </label>

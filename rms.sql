@@ -71,9 +71,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userId`, `fullName`, `username`, `email`, `mobileNumber`, `type`, `displayPicture`, `password`, `dateRegistered`, `dateUpdated`) VALUES
-(1, 'Nuhaadh Hassan', 'nuhaadh', 'nuhaadh@gmail.com', '0710000000', 'ADMIN', 'default.png', 'nuhaadh', '2023-07-22 19:23:27', '2023-07-26 10:00:33'),
-(2, 'Sample Staff', 'staff', 'staff@example.com', '0710000001', 'STAFF', 'default.png', 'staff', '2023-07-22 21:04:02', '2023-07-26 11:39:08'),
-(3, '123', '123', '123', '123', 'CUSTOMER', NULL, '123', '2023-07-23 00:56:58', NULL);
+(1, 'Nuhaadh Hassan', 'nuhaadh', 'nuhaadh@gmail.com', '0710000000', 'ADMIN', 'default.png', '$2y$10$eWULcWIXyhlZp1VbDnGLSuKkCf.YzcwtV5iRc/M1ZWFMXyH.7xfZu', '2023-07-22 19:23:27', '2023-07-26 10:00:33'),
+(2, 'Sample Staff', 'staff', 'staff@example.com', '0710000001', 'STAFF', 'default.png', '$2y$10$O1QtqTTtbksO1SfWr36M7e6iI3eoKPN5CrcuhZGlvzJn.SJPf7ufy', '2023-07-22 21:04:02', '2023-07-26 11:39:08'),
+(3, '123', '123', '123', '123', 'CUSTOMER', NULL, '$2y$10$1u/dbtK0ea/Pjf6YwwhEgusR7CsMbpIsvfbr7HDO9njTIhjuT8RLu', '2023-07-23 00:56:58', NULL);
 
 --
 -- Indexes for dumped tables

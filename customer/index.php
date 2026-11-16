@@ -3,12 +3,12 @@ session_start();
 include("../admin/food.php");
 $food = new Food();
 
-if (!isset($_SESSION["CustomerLogged"]))
-    header("location:customerLoginRegister.php");
+requireLogin("CustomerLogged", "customerLoginRegister.php");
 
 if (isset($_POST["btnCustomerLogOut"])) {
     unset($_SESSION["CustomerLogged"]);
     header("location:customerLoginRegister.php");
+    exit;
 }
 
 ?>

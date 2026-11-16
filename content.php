@@ -46,14 +46,14 @@
 
             <div class="productListBox imgCurve">
                 <div class="productListImg">
-                    <img src="../img/<?php echo $f->foodImage ?>" alt="Chicken Hawaiian Pizza" class="imgResponsive imgCurve" />
+                    <img src="../img/<?php echo e($f->foodImage ?: 'defaultFood.png') ?>" alt="<?php echo e($f->foodName); ?>" class="imgResponsive imgCurve" />
                 </div>
 
                 <div class="productListDesc">
-                    <h4><?php echo $f->foodName; ?></h4>
-                    <p class="productPrice">LKR <?php echo $f->foodPrice; ?></p>
+                    <h4><?php echo e($f->foodName); ?></h4>
+                    <p class="productPrice">LKR <?php echo e($f->foodPrice); ?></p>
                     <p class="productDetail">
-                        <?php echo "$f->foodDescription"; ?>
+                        <?php echo e($f->foodDescription); ?>
                     </p>
                     <br />
                     <button class="btn btn-primary">Order Now</button>

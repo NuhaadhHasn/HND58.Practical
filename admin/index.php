@@ -3,12 +3,12 @@ session_start();
 include("../admin/food.php");
 $food = new Food();
 
-if (!isset($_SESSION["AdminLogged"]))
-    header("location:../login.php");
+requireLogin("AdminLogged", "../login.php");
 
 if (isset($_POST["btnAdminLogOut"])) {
     unset($_SESSION["AdminLogged"]);
     header("location:../login.php");
+    exit;
 }
 
 ?>

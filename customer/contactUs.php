@@ -1,13 +1,16 @@
 <?php
+session_start();
 
 if (isset($_POST["btnCustomerLoginRegisterPage"])) {
-    header("Location: customer/customerLoginRegister.php");
+    header("Location: customerLoginRegister.php");
+    exit;
 }
 
 
 if (isset($_POST["btnCustomerLogOut"])) {
     unset($_SESSION["CustomerLogged"]);
     header("location:customerLoginRegister.php");
+    exit;
 }
 
 ?>

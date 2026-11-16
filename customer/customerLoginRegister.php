@@ -2,10 +2,10 @@
 session_start();
 include("../authentications.php");
 
-if (isset($_SESSION["CustomerLogged"]))
+if (isset($_SESSION["CustomerLogged"])) {
     header("location:index.php");
-if (isset($_SESSION["btnCustomerLogOut"]))
-    header("location:index.php");
+    exit;
+}
 
 
 if (isset($_POST["btnRegister"])) {

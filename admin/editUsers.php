@@ -1,7 +1,8 @@
 <?php
 session_start();
 include("user.php");
-$currentId = $_GET['edit'];
+requireLogin("AdminLogged", "../login.php");
+$currentId = $_GET['edit'] ?? null;
 
 if (isset($_GET['edit'])) {
     $user = new User();
@@ -18,21 +19,14 @@ if (isset($_POST["btnAddNewUser"])) {
     $user->username = $_POST["txtRegisterUsername"];
     $user->email = $_POST["txtRegisterEmail"];
     $user->mobileNumber = $_POST["txtRegisterMobile"];
-    $user->password = $_POST["txtRegisterPassword"];
+    // an empty password box keeps the current password; a new one is stored as a hash
+    $user->password = (($_POST["txtRegisterPassword"] ?? "") === "") ? $getUser->password : password_hash($_POST["txtRegisterPassword"], PASSWORD_DEFAULT);
     if ($_POST["txtRegisterType"] == "none") {
         $user->type = $getUser->type;
     } else {
         $user->type = $_POST["txtRegisterType"];
     }
-    $imageName = $_FILES["txtRegisterDisplayPicture"]["name"];
-    $fileInfo = new SplFileInfo($imageName);
-
-    if (!empty($_FILES["txtRegisterDisplayPicture"]["name"])) {
-        $user->displayPicture = $_FILES["txtRegisterDisplayPicture"]["name"];
-        move_uploaded_file($_FILES["txtRegisterDisplayPicture"]["tmp_name"], "../img/" . $imageName);
-    } else {
-        $user->displayPicture = $getUser->displayPicture;
-    }
+    $user->displayPicture = saveUploadedImage("txtRegisterDisplayPicture", "../img") ?? $getUser->displayPicture;
 
     $user->Update();
 }

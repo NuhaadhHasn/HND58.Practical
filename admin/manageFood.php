@@ -5,12 +5,12 @@ include("food.php");
 // $LoginProcess = new Authentications();
 $food = new Food();
 
-if (!isset($_SESSION["AdminLogged"]))
-    header("location:../login.php");
+requireLogin("AdminLogged", "../login.php");
 
 if (isset($_POST["btnAdminLogOut"])) {
     unset($_SESSION["AdminLogged"]);
     header("location:../login.php");
+    exit;
 }
 
 if (isset($_POST["btnAddNewFood"])) {
@@ -20,17 +20,7 @@ if (isset($_POST["btnAddNewFood"])) {
     $food->foodCategory = $_POST["txtRegisterFoodCategory"];
     $food->offerAvailable = $_POST["txtRegisterFoodOffer"];
     $food->foodDescription = $_POST["txtRegisterFoodDescription"];
-    $imageName = $_FILES["txtRegisterFoodImage"]["name"];
-    $fileInfo = new SplFileInfo($imageName);
-    // echo $_FILES["txtRegisterFoodImage"]["tmp_name"];
-
-    if (!empty($_FILES["txtRegisterFoodImage"]["name"])) {
-        $food->foodImage = $_FILES["txtRegisterFoodImage"]["name"];
-        move_uploaded_file($_FILES["txtRegisterFoodImage"]["tmp_name"], "../img/" . $imageName);
-        // echo "Phot Added";
-    } else {
-        $food->foodImage = "defaultFood.png";
-    }
+    $food->foodImage = saveUploadedImage("txtRegisterFoodImage", "../img") ?? "defaultFood.png";
 
     $food->AddFood();
 }
@@ -132,14 +122,14 @@ if (isset($_GET["delete"])) {
                                         </span>
                                     </td>
                                     <td><?php echo htmlentities($id); ?></td>
-                                    <td><img src="../img/<?php echo $f->foodImage ?>" alt="" srcset="" width="80px"></td>
-                                    <td><?php echo $f->foodName; ?></td>
-                                    <td><?php echo "$f->foodDescription"; ?></td>
-                                    <td><?php echo $f->foodCategory; ?></td>
-                                    <td><?php echo $f->foodPrice; ?></td>
-                                    <td><?php echo $f->offerAvailable; ?></td>
-                                    <td><?php echo $f->dateAdded; ?></td>
-                                    <td><?php echo $f->dateUpdated; ?></td>
+                                    <td><img src="../img/<?php echo e($f->foodImage ?: 'defaultFood.png') ?>" alt="" srcset="" width="80px"></td>
+                                    <td><?php echo e($f->foodName); ?></td>
+                                    <td><?php echo e($f->foodDescription); ?></td>
+                                    <td><?php echo e($f->foodCategory); ?></td>
+                                    <td><?php echo e($f->foodPrice); ?></td>
+                                    <td><?php echo e($f->offerAvailable); ?></td>
+                                    <td><?php echo e($f->dateAdded); ?></td>
+                                    <td><?php echo e($f->dateUpdated); ?></td>
                                     <td>
                                         <a href="editFood.php?editFood=<?php echo $f->foodId ?>" class="edit" data-toggle="modal"><i class="fas fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                         <a href="manageFood.php?delete=<?php echo $f->foodId ?>" id="" class="delete" data-toggle="modal"><i class="fas fa-trash-can" data-toggle="tooltip" title="Delete"></i></a>

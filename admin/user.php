@@ -76,6 +76,7 @@ class User
             $stmt->bindParam(8, $this->userId, PDO::PARAM_INT);
             $stmt->execute();
             header("location:manageUsers.php");
+            exit;
         } catch (Exception $ex) {
             throw $ex;
         }

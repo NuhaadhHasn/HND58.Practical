@@ -2,11 +2,13 @@
 
 if (isset($_POST["btnCustomerLoginRegisterPage"])) {
     header("Location: customer/customerLoginRegister.php");
+    exit;
 }
 
 
 if (isset($_POST["btnAdminLoginRegisterPage"])) {
     header("Location: admin/index.php");
+    exit;
 }
 ?>
 

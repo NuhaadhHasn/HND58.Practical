@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/helpers.php";
+
 class Config
 {
     public static function GetConnection()

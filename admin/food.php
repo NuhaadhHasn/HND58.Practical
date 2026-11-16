@@ -121,6 +121,7 @@ class Food
             $stmt->bindParam(8, $this->foodId, PDO::PARAM_INT);
             $stmt->execute();
             header("location:manageFood.php");
+            exit;
         } catch (Exception $ex) {
             throw $ex;
         }
