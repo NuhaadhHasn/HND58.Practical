@@ -14,9 +14,9 @@ WAD58RMS is a web-based application designed to manage and streamline restaurant
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/NuhaadhHasn/WAD58.Practical.git
+    git clone https://github.com/NuhaadhHasn/HND58.Practical.git
     ```
-    (the restaurant system is in the `WAD58RMS` folder of that repository)
+    (the restaurant system is in the `WAD/WAD58RMS` folder of that repository)
 
 2. Copy the `WAD58RMS` folder to your Wampp/Xampp htdocs folder.
 
