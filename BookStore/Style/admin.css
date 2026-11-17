@@ -1,0 +1,52 @@
+aside {
+    float: left;
+    margin-right: 10px;
+    border-right: 20px double royalblue;
+}
+main {
+    float: left;
+}
+header {
+    height: 150px;
+    background-color: royalblue;
+    border-bottom: 3px silver solid;
+}
+
+#logo {
+    height: 100px;
+    width: 100px;
+    border: 3px solid silver;
+    border-radius: 70px;
+    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-image: url('../Images/logo.jpg');
+    background-size: cover;
+}
+
+h2 {
+    color: silver;
+    font-size: 1.4em;
+}
+
+header ul {
+    list-style-type: none;
+}
+
+header ul li {
+    float: left;
+}
+
+header ul li a {
+    color: white;
+    margin: 5px;
+    border-left: 1px solid white;
+    text-decoration: none;
+    display: inline-block;
+    width: auto;
+}
+
+#topContent {
+    float: left;
+}
