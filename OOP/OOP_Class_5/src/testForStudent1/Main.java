@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     public final static int max = 50;
     public static int[] que = new int[max];
-    public static int front = 1, rear = -1;
+    public static int front = -1, rear = -1;
 
     public static void enqueue(int data) {
         if (rear == max - 1) {
@@ -38,7 +38,7 @@ public class Main {
         {
             for (int i = 0; i < size; i++) {
                 System.out.println("Enter Data to Queue");
-                size = STDIN_SCANNER.nextInt();
+                data = STDIN_SCANNER.nextInt();
                 System.out.println("Enqueuing" + data);
                 enqueue(data);
                 disp();

@@ -11,6 +11,8 @@ public class test {
 
     public static void main(String[] args) {
         
-        System.out.println(c);
+        test t = new test();
+        t.add();
+        System.out.println(t.c);
     }
 }
