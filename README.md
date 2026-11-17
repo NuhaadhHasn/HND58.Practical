@@ -1,7 +1,7 @@
 <h1 align="center">HND 58 practicals</h1>
 
 <p align="center">
-  What I built in my 58th batch at ICBT Kandy: <b>WAD</b> (web application development, PHP and MySQL) and <b>OOP</b> (Java).<br>
+  What I built in my 58th batch at ICBT Kandy: <b>WAD</b> (web application development, PHP and MySQL), <b>OOP</b> and <b>DSA</b> (Java).<br>
   A restaurant system, a book shop and the small class practicals for the web, and the Java class exercises.
 </p>
 
@@ -30,7 +30,11 @@
 
 ## OOP
 
-The Java exercises from the same batch, in [`OOP/`](OOP): Java basics, classes and inheritance, three design patterns, two scenario exercises and the data-structure exercises. See the [OOP README](OOP/README.md).
+The Java exercises from the same batch, in [`OOP/`](OOP): Java basics, classes and inheritance, three design patterns and two scenario exercises. See the [OOP README](OOP/README.md).
+
+## DSA
+
+The data-structure exercises, in [`DSA/DSA58/`](DSA/DSA58): stack, queue, linear and binary search, bubble, selection and insertion sort, and factorial, one Java class each. They compile and run (the little `test` class did not compile as received and was fixed). See the [DSA README](DSA/README.md).
 
 ## WAD
 

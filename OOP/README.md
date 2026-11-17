@@ -10,9 +10,8 @@ The Java practicals from my 58th batch at ICBT Kandy, as plain source folders (`
 | `Composite` | the Composite design pattern: small and big pieces of advice that print as one list | `Main` |
 | `Observer` | the Observer design pattern: newspapers (BBC, Newsday) notify their readers | `Main` |
 | `Singleton`, `Singleton_java` | the Singleton design pattern: a second request for the "Principle" object says it already exists; `Singleton_java` is a smaller, earlier start of the same exercise (its `Main` only prints Hello world) | `Main` |
-| `DSA58` | data structures: stack, queue, linear and binary search, bubble, selection and insertion sort, factorial | one class per exercise |
 
-All of them were compiled and run. The queue demo and the `test` class in `DSA58` did not compile as received; see the second commit for what was changed.
+All of them were compiled and run. The queue demo in `OOP_Class_5/testForStudent1` did not compile as received; see the commit "OOP fixes" for what was changed. The data-structure exercises are in [`../DSA`](../DSA).
 
 ## Changed before publishing
 
