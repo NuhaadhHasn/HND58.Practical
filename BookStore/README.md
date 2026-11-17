@@ -16,7 +16,7 @@ A small online book shop. Visitors see the books from the database on a shop fro
 | **The admin** | `http://localhost/BookStore/Login.php` | on success it goes to `ManageBook.php`, where books are added, edited and deleted |
 | The cart | `cart.php` | linked from the shop's menu |
 
-The other files are not entry points: `index.html` is the **original, unused template page** (its links go to `about.html` and `contact.html`, which do not exist); `Home.php` is a stub that only says "HOME PAGE"; `Register.php` is an empty form; `top.php` is the admin menu that `ManageBook.php` includes; `Book.php`, `User.php`, `Config.php`, `cartItem.php` and `LoadBook.php` are classes and helpers.
+The other files are not entry points: `top.php` is the admin menu that `ManageBook.php` includes; `Book.php`, `User.php`, `Config.php`, `cartItem.php`, `helpers.php` and `LoadBook.php` are classes and helpers. (Two empty pages that nothing used, `Home.php` with just the words "HOME PAGE" and `Register.php` with an empty form, and the unused template page `index.html`, were removed.)
 
 ## Run it
 
@@ -55,6 +55,5 @@ The first commits hold the files as received; the fixes are their own commit. I 
 ## Known issues (left as they were)
 
 - The shop front still carries the restaurant template: the title "Simple House / new restaurant template", the Pizza, Salad and Noodle tabs, and 13 fixed template items (salads and noodles) under the books from the database. Links to `contact.html` and `about.html` give 404, and the admin menu points to `AdminHome.php`, `Sales.php` and `Configure.php`, which do not exist.
-- `Home.php` (a stub that says "HOME PAGE") and `Register.php` (an empty form) are not used by anything.
 - There is no way to register a customer, check out, or see sales, and the cart cannot be changed once items are in it; the project was never finished.
 - Database errors are thrown to the page, and the connection is `root` with no password.
