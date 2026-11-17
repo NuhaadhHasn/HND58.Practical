@@ -44,6 +44,9 @@
 
 function findGrade($value)
 {
+    if ($value === "" || !is_numeric($value)) {
+        return "";
+    }
     $number1 = $value;
     if ($number1 >= 75) {
         $grade = "A";
@@ -76,7 +79,7 @@ function findGrade($value)
                 <td>Enter Subject 1 Marks</td>
                 <!-- <td><input type="number" name="txtSub1" id="" value="<?php // echo $number1 
                                                                             ?>"></td> -->
-                <td><input type="number" name="txtSub1" id="" value="<?php echo $_POST['txtSub1'] ?>"></td>
+                <td><input type="number" name="txtSub1" id="" value="<?php echo htmlspecialchars($_POST['txtSub1'] ?? '') ?>"></td>
                 <td>Grade</td>
                 <!-- <td><input type="text" name="txtRSub" value="<?php //echo $grade 
                                                                     ?>" readonly></td> -->
@@ -90,11 +93,11 @@ function findGrade($value)
                 <td>Enter Subject 2 Marks</td>
                 <!-- <td><input type="number" name="txtSub2" id="" value="<?php // echo $number2 
                                                                             ?>"></td> -->
-                <td><input type="number" name="txtSub1" id="" value="<?php echo $_POST['txtSub2'] ?>"></td>
+                <td><input type="number" name="txtSub2" id="" value="<?php echo htmlspecialchars($_POST['txtSub2'] ?? '') ?>"></td>
                 <td>Grade</td>
                 <!-- <td><input type="text" name="txtRSub2" value="<?php // echo $grade2 
                                                                     ?>" readonly></td> -->
-                <td><input type="text" name="txtRSub" value="<?php
+                <td><input type="text" name="txtRSub2" value="<?php
                                                                 if (isset($_POST['txtSub2']))
                                                                     echo findGrade($_POST['txtSub2']);
                                                                 ?>" readonly></td>
@@ -104,11 +107,11 @@ function findGrade($value)
                 <td>Enter Subject 3 Marks</td>
                 <!-- <td><input type="number" name="txtSub3" id="" value="<?php // echo $number3 
                                                                             ?>"></td> -->
-                <td><input type="number" name="txtSub1" id="" value="<?php echo $_POST['txtSub3'] ?>"></td>
+                <td><input type="number" name="txtSub3" id="" value="<?php echo htmlspecialchars($_POST['txtSub3'] ?? '') ?>"></td>
                 <td>Grade</td>
                 <!-- <td><input type="text" name="txtRSub3" value="<?php // echo $grade3 
                                                                     ?>" readonly></td> -->
-                <td><input type="text" name="txtRSub" value="<?php
+                <td><input type="text" name="txtRSub3" value="<?php
                                                                 if (isset($_POST['txtSub3']))
                                                                     echo findGrade($_POST['txtSub3']);
                                                                 ?>" readonly></td>

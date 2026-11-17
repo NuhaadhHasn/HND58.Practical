@@ -30,13 +30,16 @@ Copy the folder into `htdocs` (XAMPP/WAMP), start Apache and open `http://localh
 
 I ran every page in a browser on PHP 8.2 (the screenshots; PHP's own warning messages were switched off for them, because they print the folder the page runs from).
 
-## Known issues (found by running them; nothing is changed yet)
+## Fixed in a separate commit
 
-- **`Grade.php`: the three marks boxes are all named `txtSub1`**, so only the last value is sent. Marks of 80, 55 and 30 give one grade, F, for the third value, and the other two grades stay empty. PHP 8 also prints "Undefined array key" warnings on the first load.
-- **`Calc.php`: dividing by 0 is an uncaught `DivisionByZeroError`**, which prints a fatal error and stops the page. The first load prints "Undefined variable" warnings.
-- **`Home.php` still runs after the redirect.** Without a session the browser is sent to the login, but the page itself (including "Welcome") is still produced in the same response, because there is no `exit` after `header()`. The same missing `exit` is in the login redirect.
-- Logout redirects to `logging.php` (lower case); the file is `Logging.php`, so it only works on Windows.
-- `ArrayDemo.php`: the buttons **Average Score**, **Total Score By Player** and **Total Average By Player** do nothing yet.
-- `MultiDimensionalArrayDemo.php`: **Print All** fails with "Attempt to read property 'names' on string" warnings; the page was not finished.
-- The Calculator and the Grade finder write what was typed back into the page without escaping it.
-- The login's e-mail and password are fixed in the code, and a new session id is not created at login.
+The first commits hold the files as received; the fixes are their own commit. I checked each one in a browser, with PHP's warnings switched on this time:
+
+- **`Grade.php`**: the three marks boxes now have their own names (`txtSub1`, `txtSub2`, `txtSub3`, and `txtRSub2`, `txtRSub3` for the grades). Marks of 80, 55 and 30 now give A, C and F. An empty box shows no grade, and the "Undefined array key" warnings are gone.
+- **`Calc.php`**: dividing by 0 shows "You cannot divide by zero." instead of a fatal error; the numbers are checked, the starting values are set (no "Undefined variable" warnings) and the values are escaped when written back into the page.
+- **`Home.php`**: the script stops (`exit`) after each redirect, so the page's content is no longer sent to a visitor who is not logged in, logout goes to `Logging.php` (the real file name) and the name is escaped. `Logging.php` also stops after its redirect and creates a new session id at login.
+- **`MultiDimensionalArrayDemo.php`**: it had its own cookie name added (it shared `player` with `ArrayDemo.php`, so using one after the other gave warnings) and **Print All** printed every player twice because the same loop was there twice.
+
+## Known issues (left as they were)
+
+- `ArrayDemo.php` and `MultiDimensionalArrayDemo.php`: the buttons **Average Score**, **Total Score By Player** and **Total Average By Player** do nothing yet; the practicals were never finished.
+- The login's e-mail and password are fixed in `Logging.php`, as in the lesson.

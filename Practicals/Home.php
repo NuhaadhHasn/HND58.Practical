@@ -1,10 +1,13 @@
 <?php
 session_start();
-if (!isset($_SESSION["un"]))
+if (!isset($_SESSION["un"])) {
     header("location:Logging.php");
+    exit;
+}
 if (isset($_POST["btnLogOut"])) {
     unset($_SESSION["un"]);
-    header("location:logging.php");
+    header("location:Logging.php");
+    exit;
 }
 ?>
 
@@ -18,7 +21,7 @@ if (isset($_POST["btnLogOut"])) {
 </head>
 
 <body>
-    <h1>Welcome <?php echo $_SESSION["un"] ?></h1>
+    <h1>Welcome <?php echo htmlspecialchars($_SESSION["un"]) ?></h1>
     <form method="post">
         <input type="submit" value="Logout" name="btnLogOut">
     </form>

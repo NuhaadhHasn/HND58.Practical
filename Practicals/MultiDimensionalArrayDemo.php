@@ -1,17 +1,17 @@
 <?php
-if (!isset($_COOKIE["player"])) {
+if (!isset($_COOKIE["playerObjects"])) {
     $players = array();
-    setcookie("player", json_encode($players));
+    setcookie("playerObjects", json_encode($players));
 }
 if (isset($_POST["btnSave"])) {
-    $players = json_decode($_COOKIE["player"]);
+    $players = json_decode($_COOKIE["playerObjects"]);
 
     array_push($players, array(
         "names" => $_POST["txtBoxName"],
         "scores" => array($_POST["txtBoxM1"], $_POST["txtBoxM2"], $_POST["txtBoxM3"])
     ));
 
-    setcookie("player", json_encode($players));
+    setcookie("playerObjects", json_encode($players));
 }
 ?>
 
@@ -61,16 +61,7 @@ if (isset($_POST["btnSave"])) {
     </form>
     <?php
     if (isset($_POST["btnPrint"])) {
-        $players  = json_decode($_COOKIE["player"]);
-
-        for ($count = 0; $count < count($players); $count++) {
-            echo $players[$count]->names, '<br>';
-            foreach ($players[$count]->scores as $sS) {
-                if ($sS !== "") {
-                    echo $sS, '<br>';
-                }
-            }
-        }
+        $players  = json_decode($_COOKIE["playerObjects"]);
 
         foreach ($players as $p) {
             echo $p->names, '<br>';

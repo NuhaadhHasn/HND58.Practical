@@ -3,8 +3,10 @@ session_start();
 $msg = "";
 if (isset($_POST["btnLog"])) {
     if ($_POST["txtEmail"] == "nuhaadh9991@gmail.com" && $_POST["txtPW"] == "nuhaadh") {
+        session_regenerate_id(true);
         $_SESSION["un"] = "Nuhaadh";
         header("location:Home.php");
+        exit;
     } else {
         $msg = "Check Your Email Or Password";
     }
