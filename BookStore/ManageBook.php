@@ -1,14 +1,17 @@
 <?php
 session_start();
 include("Book.php");
+include("helpers.php");
 
-// if (!isset($_SESSION["Logged"]))
-//     header("location:Login.php");
-
+if (!isset($_SESSION["Logged"])) {
+    header("location:Login.php");
+    exit;
+}
 
 if (isset($_POST["btnLogOut"])) {
     unset($_SESSION["Logged"]);
-    header("location:login.php");
+    header("location:Login.php");
+    exit;
 }
 
 if (isset($_POST["btnAdd"])) {
@@ -23,33 +26,23 @@ if (isset($_POST["btnAdd"])) {
     $book->Author = $_POST["txtAuthor"];
     $id = $book->ADD();
 
-    // if ($id > 0) {
-    //     echo '<script>alert("Book Added.")</script>';
-    // } else {
-    //     echo '<script>alert("Error in adding Book.")</script>';
-    // }
-
     if ($id > 0) {
-        $front = $_FILES["txtCoverF"]['name'];
-        $back = $_FILES["txtCoverB"]['name'];
-        $fileInfo = new SplFileInfo($front);
-        $newFront = './BookCovers/' . $id . 'F.' . $fileInfo->getExtension();
-        $fileInfo = new SplFileInfo($back);
-        $newBack = './BookCovers/' . $id . 'B.' . $fileInfo->getExtension();
-
-        // Upload Files to a Specific Location
-        move_uploaded_file($_FILES["txtCoverF"]['tmp_name'], $newFront);
-        move_uploaded_file($_FILES["txtCoverB"]['tmp_name'], $newBack);
-
-        $book->Id = $id;
-        $book->CoverFront = $newFront;
-        $book->CoverBack = $newBack;
-
-        // Update DB 
-        $book->UpdateCovers();
+        // only real pictures are saved (see saveCover in helpers.php)
+        $newFront = saveCover("txtCoverF", $id, "F");
+        $newBack = saveCover("txtCoverB", $id, "B");
+        if ($newFront !== null || $newBack !== null) {
+            $book->Id = $id;
+            if ($newFront !== null) {
+                $book->CoverFront = $newFront;
+            }
+            if ($newBack !== null) {
+                $book->CoverBack = $newBack;
+            }
+            $book->UpdateCovers();
+        }
         echo "<script>alert('book added')</script>";
     } else {
-        '<script>alert("Failed to Add Book")</script>';
+        echo '<script>alert("Failed to Add Book")</script>';
     }
 } elseif (isset($_POST['btnEdit'])) {
     $book = new Book();
@@ -66,44 +59,14 @@ if (isset($_POST["btnAdd"])) {
     $book->ISBN = $_POST["txtISBN"];
     $book->Author = $_POST["txtAuthor"];
 
-    if (isset($_FILES["txtCoverF"]) && isset($_FILES["txtCoverB"])) {
-        $front = $_FILES["txtCoverF"]['name'];
-        $back = $_FILES["txtCoverB"]['name'];
-        $fileInfo = new SplFileInfo($front);
-        $newFront = './BookCovers/' . $book->Id . 'F.' . $fileInfo->getExtension();
-        $fileInfo = new SplFileInfo($back);
-        $newBack = './BookCovers/' . $book->Id . 'B.' . $fileInfo->getExtension();
-
-        // Upload Files to a Specific Location
-        move_uploaded_file($_FILES["txtCoverF"]['tmp_name'], $newFront);
-        move_uploaded_file($_FILES["txtCoverB"]['tmp_name'], $newBack);
-
-        $book->CoverFront = $newFront;
-        $book->CoverBack = $newBack;
-    } elseif (isset($_FILES["txtCoverF"]) && !isset($_FILES["txtCoverB"])) {
-        $front = $_FILES["txtCoverF"]['name'];
-        $fileInfo = new SplFileInfo($front);
-        $newFront = './BookCovers/' . $book->Id . 'F.' . $fileInfo->getExtension();
-
-        // Upload Files to a Specific Location
-        move_uploaded_file($_FILES["txtCoverF"]['tmp_name'], $newFront);
-
-        $book->CoverFront = $newFront;
-        $book->CoverBack = $_SESSION['bookE']->CoverBack;
-    } elseif (!isset($_FILES["txtCoverF"]) && isset($_FILES["txtCoverB"])) {
-        $back = $_FILES["txtCoverB"]['name'];
-        $fileInfo = new SplFileInfo($back);
-        $newBack = './BookCovers/' . $book->Id . 'B.' . $fileInfo->getExtension();
-
-        // Upload Files to a Specific Location
-        move_uploaded_file($_FILES["txtCoverB"]['tmp_name'], $newBack);
-
-        $book->CoverBack = $newBack;
-        $book->CoverFront = $_SESSION['bookE']->CoverFront;
-    } else {
-        $book->CoverFront = $_SESSION['bookE']->CoverFront;
-        $book->CoverBack = $_SESSION['bookE']->CoverBack;
-    }
+    // keep the covers the book already has unless a new picture was chosen
+    $old = new Book();
+    $old->Id = $book->Id;
+    $old = $old->GetBook();
+    $newFront = saveCover("txtCoverF", $book->Id, "F");
+    $newBack = saveCover("txtCoverB", $book->Id, "B");
+    $book->CoverFront = $newFront !== null ? $newFront : $old->CoverFront;
+    $book->CoverBack = $newBack !== null ? $newBack : $old->CoverBack;
 
     $book->Update();
 } elseif (isset($_POST["btnDelete"])) {
@@ -153,25 +116,25 @@ if (isset($_POST["btnAdd"])) {
                 <tr>
                     <td>Book ID</td>
                     <td><input type="number" readonly name="txtID" value="<?php if (isset($book)) {
-                                                                                echo "$book->Id";
+                                                                                echo h($book->Id);
                                                                             } ?>"></td>
                 </tr>
                 <tr>
                     <td>Title</td>
                     <td><input type="text" name="txtTitle" required value="<?php if (isset($book)) {
-                                                                                echo "$book->Title";
+                                                                                echo h($book->Title);
                                                                             } ?>"></td>
                 </tr>
                 <tr>
                     <td>Author</td>
                     <td><input type="text" name="txtAuthor" required value="<?php if (isset($book)) {
-                                                                                echo "$book->Author";
+                                                                                echo h($book->Author);
                                                                             } ?>"></td>
                 </tr>
                 <tr>
                     <td> Category</td>
                     <td><input type="text" name="txtCat" required value="<?php if (isset($book)) {
-                                                                                echo "$book->Category";
+                                                                                echo h($book->Category);
                                                                             } ?>">
                     </td>
                 </tr>
@@ -179,20 +142,20 @@ if (isset($_POST["btnAdd"])) {
                 <tr>
                     <td>ISBN</td>
                     <td><input type="text" name="txtISBN" required value="<?php if (isset($book)) {
-                                                                                echo "$book->ISBN";
+                                                                                echo h($book->ISBN);
                                                                             } ?>"></td>
                 </tr>
                 <tr>
                     <td>Description</td>
                     <td><textarea name="txtDes" cols="30" rows="5"><?php if (isset($book)) {
-                                                                        echo "$book->Desctiption";
+                                                                        echo h($book->Desctiption);
                                                                     } ?></textarea>
                     </td>
                 </tr>
                 <tr>
                     <td>Price</td>
                     <td><input type="number" name="txtPrice" required value="<?php if (isset($book)) {
-                                                                                    echo "$book->Price";
+                                                                                    echo h($book->Price);
                                                                                 } ?>"></td>
                 </tr>
                 <tr>
@@ -200,7 +163,7 @@ if (isset($_POST["btnAdd"])) {
                     <td>
                         <?php
                         if (isset($book)) {
-                            echo '<img src="' . $book->CoverFront . '" width="100px" height="100px"/>';
+                            echo '<img src="' . h($book->CoverFront) . '" width="100px" height="100px"/>';
                         }
                         ?>
                         <input type="file" name="txtCoverF" id="">
@@ -211,7 +174,7 @@ if (isset($_POST["btnAdd"])) {
                     <td>
                         <?php
                         if (isset($book)) {
-                            echo '<img src="' . $book->CoverBack . '" width="100px" height="100px"/>';
+                            echo '<img src="' . h($book->CoverBack) . '" width="100px" height="100px"/>';
                         }
                         ?>
                         <input type="file" name="txtCoverB" id="">
@@ -251,17 +214,17 @@ if (isset($_POST["btnAdd"])) {
             </tr>';
         foreach ($books as $b) {
             echo '<tr>
-                    <td>' . $b->Id . ' </td>
-                    <td>' . $b->Title . ' </td>
-                    <td><img src="' . $b->CoverFront . '" width="80px" height="80px" />
-                        <img src="' . $b->CoverBack . '" width="80px" height="80px" />
+                    <td>' . h($b->Id) . ' </td>
+                    <td>' . h($b->Title) . ' </td>
+                    <td><img src="' . h($b->CoverFront) . '" width="80px" height="80px" />
+                        <img src="' . h($b->CoverBack) . '" width="80px" height="80px" />
                     </td>
-                    <td>' . $b->Price . '</td>
-                    <td>' . $b->Category . '</td>
-                    <td>' . $b->Desctiption . '<br>
-                    Author : ' . $b->Author . '<br>
-                    ISBN : ' . $b->ISBN . '</td>
-                    <td><button name="btnEdit" id="btnEdit" type="submit" value="' . $b->Id . '" onclick="LoadBook(' . $b->Id . ')">Edit</button></td>
+                    <td>' . h($b->Price) . '</td>
+                    <td>' . h($b->Category) . '</td>
+                    <td>' . h($b->Desctiption) . '<br>
+                    Author : ' . h($b->Author) . '<br>
+                    ISBN : ' . h($b->ISBN) . '</td>
+                    <td><button name="btnEdit" id="btnEdit" type="submit" value="' . h($b->Id) . '">Edit</button></td>
                 </tr>';
         }
         echo '</table> </form>';

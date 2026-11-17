@@ -1,5 +1,6 @@
 -- Database for the BookStore site (WAD58 batch).
 -- The `book` table is the one from my local `bookstore` database (its single test row is not kept).
+-- Passwords are stored as password_hash() values (the demo admin's password is "admin").
 -- The `user` table did not exist in that database, although Login.php / User.php read it:
 -- its columns are the ones the User class uses. The demo rows below are made up for this repository.
 
@@ -32,7 +33,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `user` (`Name`, `Username`, `Password`, `Email`, `Type`) VALUES
-('Shop Admin', 'admin', 'admin', 'admin@example.com', 'Admin');
+('Shop Admin', 'admin', '$2y$10$toxVxtKFh5SyDH4Isyvz1ecZ.96ctZfQMrde.4Hm4.l3j3mXnmEw.', 'admin@example.com', 'Admin');
 
 INSERT INTO `book` (`Title`, `Desctiption`, `Price`, `CoverFront`, `CoverBack`, `ISBN`, `Category`, `Author`) VALUES
 ('Sample Book One',   'A made-up book so the shop front is not empty.', 1500, './BookCovers/1F.jpg',  './BookCovers/1B.jpg',  100001, 'Fiction',   'A. Writer'),

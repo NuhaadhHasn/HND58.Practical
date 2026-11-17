@@ -14,18 +14,17 @@ class User
         try {
             if (!empty($_POST['txtUsername']) && !empty($_POST['txtPassword'])) {
                 $conn = Config::GetConnection();
-                $query = "SELECT `Name`
-                    FROM user 
-                    WHERE Username=? and Password=? ";
+                $query = "SELECT `Name`, `Password` FROM user WHERE Username=?";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(1, $this->UserName, PDO::PARAM_STR);
-                $stmt->bindParam(2, $this->Password, PDO::PARAM_STR);
                 $stmt->execute();
-                $results = $stmt->fetchAll();
-                $user = new User();
-                if (isset($results[0])) {
+                $row = $stmt->fetch();
+                // the stored password is a password_hash() value
+                if ($row && password_verify($this->Password, $row['Password'])) {
+                    session_regenerate_id(true);
                     $_SESSION["Logged"] = "Logged";
                     header("location:ManageBook.php");
+                    exit;
                 } else {
                     echo "<script>alert('Invalid Username or Password')</script>";
                 }

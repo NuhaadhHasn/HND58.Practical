@@ -1,5 +1,7 @@
 <?php
 include("cartItem.php");
+include("helpers.php");
+session_start(); // after the includes: the cart in the session holds CartItem objects
 
 ?>
 
@@ -67,30 +69,33 @@ https://templatemo.com/tm-539-simple-house
                         </tr>
                         <?php
                         foreach ($cart as $item) {
-                            $cost = $i->Quantity * $i->Price;
+                            $cost = $item->Quantity * $item->Price;
                             $total = $total + $cost;
                         ?>
                             <tr>
                                 <td>
-                                    <?php $item->Id ?>
+                                    <?php echo h($item->Id) ?>
                                 </td>
                                 <td>
-                                    <?php $item->Title ?>
+                                    <?php echo h($item->Title) ?>
                                 </td>
                                 <td>
-                                    <?php $item->Price ?>
+                                    <?php echo h($item->Price) ?>
                                 </td>
                                 <td>
-                                    <?php $item->Quantity ?>
+                                    <?php echo h($item->Quantity) ?>
                                 </td>
                                 <td>
-                                    <?php $cost ?>
+                                    <?php echo h($cost) ?>
                                 </td>
                             </tr>
                         <?php
                         }
                         ?>
-
+                        <tr>
+                            <td colspan="4">Total</td>
+                            <td><?php echo h($total) ?></td>
+                        </tr>
                     </table>
                 <?php
                 }

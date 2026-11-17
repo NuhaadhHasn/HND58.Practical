@@ -29,7 +29,7 @@ if (isset($_POST["btnLogin"])) {
                 <td><input type="text" name="txtUsername" placeholder="Enter Username"></td>
             </tr>
             <tr>
-                <td><input type="text" name="txtPassword" placeholder="Enter Password"></td>
+                <td><input type="password" name="txtPassword" placeholder="Enter Password"></td>
             </tr>
             <tr>
                 <td>

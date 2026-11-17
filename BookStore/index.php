@@ -1,6 +1,7 @@
 <?php
 include("Book.php");
 include("cartItem.php");
+include("helpers.php");
 session_start();
 ?>
 
@@ -81,28 +82,30 @@ https://templatemo.com/tm-539-simple-house
                         foreach ($books as $book) {
                             echo '<article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
                         <figure>
-                            <img src="' . $book->CoverFront . '" alt="Image" class="img-fluid tm-gallery-img" />
+                            <img src="' . h($book->CoverFront) . '" alt="Image" class="img-fluid tm-gallery-img" />
                             <figcaption>
-                                <h4 class="tm-gallery-title">' . $book->Title . '</h4>
-                                <p class="tm-gallery-description">' . $book->Desctiption . '</p>
-                                <input type="hidden" value="' . $book->Id . '" name="hId[]"
-                                <input type="hidden" value="' . $book->Title . '" name="hTitled[]"
-                                <input type="hidden" value="' . $book->Price . '" name="hPrice[]"
+                                <h4 class="tm-gallery-title">' . h($book->Title) . '</h4>
+                                <p class="tm-gallery-description">' . h($book->Desctiption) . '</p>
+                                <input type="hidden" value="' . h($book->Id) . '" name="hId[]">
+                                <input type="hidden" value="' . h($book->Title) . '" name="hTitle[]">
+                                <input type="hidden" value="' . h($book->Price) . '" name="hPrice[]">
 
-                                <p class="tm-gallery-price">' . $book->Price . '<br>
-                                Quantity <input type="number" name="txtQty[]" class="form-control">
+                                <p class="tm-gallery-price">' . h($book->Price) . '<br>
+                                Quantity <input type="number" name="txtQty[]" value="1" min="1" class="form-control">
                                 <button type="submit" name="btnBuy" value="' . $i . '" class="tm-btn">
                                 Add To Cart</button>
                                 </p>
                             </figcaption>
                         </figure>
                     </article>';
+                            $i++;
                         } ?>
                     </div> <!-- gallery page 1 -->
             </form>
             <?php
             if (isset($_POST["btnBuy"]) && isset($_POST["txtQty"])) {
-                $r = $_POST["btnBuy"];
+                $r = (int)$_POST["btnBuy"];
+                $qty = max(1, (int)($_POST["txtQty"][$r] ?? 1));
                 if (!isset($_SESSION["cart"])) {
                     $cart = array();
                     $_SESSION["cart"] = $cart;
@@ -114,7 +117,7 @@ https://templatemo.com/tm-539-simple-house
                         $cartItem = new CartItem();
                         $cartItem = $item;
                         if ($cartItem->Id == $_POST["hId"][$r]) {
-                            $cartItem->Quantity = $cartItem->Quantity + $_POST["txtQty"][$r];
+                            $cartItem->Quantity = $cartItem->Quantity + $qty;
                             $found = true;
                             break;
                         };
@@ -126,7 +129,7 @@ https://templatemo.com/tm-539-simple-house
                     $cartItem->Id = $_POST["hId"][$r];
                     $cartItem->Title = $_POST["hTitle"][$r];
                     $cartItem->Price = $_POST["hPrice"][$r];
-                    $cartItem->Quantity = $_POST["hQuantity"][$r];
+                    $cartItem->Quantity = $qty;
                     array_push($cart, $cartItem);
                 }
                 $_SESSION["cart"] = $cart;

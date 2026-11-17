@@ -35,13 +35,26 @@ The other files are not entry points: `index.html` is the **original, unused tem
 </tr>
 </table>
 
-## Known issues (found by running it; nothing is changed yet)
+## Fixed in a separate commit
 
-- **Add To Cart does nothing.** The hidden fields for the book id, title and price are not closed (`<input ... name="hId[]"` has no `>`), the title is posted as `hTitled[]` but read as `hTitle`, and the quantity is read from a field (`hQuantity`) that does not exist. `cart.php` never calls `session_start()` and prints nothing for the items (`<?php $item->Id ?>` has no `echo`, and the total uses an undefined `$i`), so the cart is always empty.
-- **The admin page needs no login.** The check in `ManageBook.php` is commented out, so `ManageBook.php` (add, edit, delete) opens for anyone; where a redirect is left, the code after it still runs because there is no `exit`.
-- **A cover upload accepts any file.** I uploaded a `.php` file as a front cover on a scratch copy: it was saved into `BookCovers/` and ran when opened. The file name also comes from the uploaded name's extension.
-- **Update without choosing new covers wipes the old ones.** Changing only a title and pressing *Update Book* saved the cover paths as `./BookCovers/1F.` and `./BookCovers/1B.` (the form always sends the two file fields).
-- Titles, descriptions and authors are written into the pages without escaping, so any HTML typed into the form runs in the page (stored XSS).
-- Passwords are compared as plain text (`WHERE Username=? and Password=?`) and the login's password box is a normal text box, so the password is visible while typing. A new session id is not created at login.
-- The shop front still carries the restaurant template: the title "Simple House / new restaurant template", the Pizza, Salad and Noodle tabs, and 13 fixed template items (salads and noodles) under the 4 books from the database. Links to `contact.html` and `about.html` give 404, and the admin menu points to `AdminHome.php`, `Sales.php` and `Configure.php`, which do not exist.
-- There is no way to register a customer, check out, or see sales.
+The first commits hold the files as received; the fixes are their own commit. I checked each one in a browser (14 checks):
+
+- **Add To Cart and the cart work.** The hidden fields are closed and named alike, the quantity comes from the quantity box (default 1), the button number `$i` is now counted up (it stayed 0, so every button added the first book), and `cart.php` starts the session (after loading the `CartItem` class), prints the items and adds a total row. Two copies of Sample Book Two plus one more, and one Sample Book Three, give quantities 3 and 1 and a total of 4,500.
+
+<p align="center">
+  <img src="screenshots/05-cart-after-fix.jpg" width="560" alt="The cart after the fix">
+</p>
+
+- **The admin pages need the login.** `ManageBook.php` redirects to `Login.php` (and stops) unless you are logged in; `LoadBook.php` answers 403 without the login.
+- **Cover uploads accept only real pictures** (jpg, png, gif, webp, checked with `getimagesize`) and are saved as `BookCovers/<id>F.<ext>` / `<id>B.<ext>`. A `.php` file is refused.
+- **Update keeps the old covers** unless a new picture is chosen.
+- **Everything written into the pages is escaped** (`h()` in the new `helpers.php`): a title like `<b>Bold</b>` shows as text.
+- **Passwords are hashed.** `User.php` fetches the user by name and checks `password_verify`, a new session id is created at login, and the login's password box is a real password box. The demo admin in `bookstore.sql` is stored as a bcrypt hash (`admin` / `admin` still works). If you imported the earlier script, import this one again.
+- **`index.html` is removed.** It was the unused original template page; `index.php` is the shop front.
+
+## Known issues (left as they were)
+
+- The shop front still carries the restaurant template: the title "Simple House / new restaurant template", the Pizza, Salad and Noodle tabs, and 13 fixed template items (salads and noodles) under the books from the database. Links to `contact.html` and `about.html` give 404, and the admin menu points to `AdminHome.php`, `Sales.php` and `Configure.php`, which do not exist.
+- `Home.php` (a stub that says "HOME PAGE") and `Register.php` (an empty form) are not used by anything.
+- There is no way to register a customer, check out, or see sales, and the cart cannot be changed once items are in it; the project was never finished.
+- Database errors are thrown to the page, and the connection is `root` with no password.
