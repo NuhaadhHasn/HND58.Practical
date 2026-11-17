@@ -89,13 +89,13 @@ if (isset($_POST["btnSave"])) {
         // }
 
         for ($count = 0; $count < count($names); $count++) {
-            echo $names[$count], '<br>';
+            echo htmlspecialchars((string)$names[$count]), '<br>';
             if ($score1[$count] != "")
-                echo $score1[$count], '<br>';
+                echo htmlspecialchars((string)$score1[$count]), '<br>';
             if ($score2[$count] != "")
-                echo $score2[$count], '<br>';
+                echo htmlspecialchars((string)$score2[$count]), '<br>';
             if ($score3[$count] != "")
-                echo $score3[$count], '<br>';
+                echo htmlspecialchars((string)$score3[$count]), '<br>';
         }
     }
     ?>

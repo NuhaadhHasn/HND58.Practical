@@ -64,10 +64,10 @@ if (isset($_POST["btnSave"])) {
         $players  = json_decode($_COOKIE["playerObjects"]);
 
         foreach ($players as $p) {
-            echo $p->names, '<br>';
+            echo htmlspecialchars((string)$p->names), '<br>';
             foreach ($p->scores as $s) {
                 if ($s !== "") {
-                    echo $s, '<br>';
+                    echo htmlspecialchars((string)$s), '<br>';
                 }
             }
         }

@@ -37,6 +37,7 @@ The first commits hold the files as received; the fixes are their own commit. I 
 - **`Grade.php`**: the three marks boxes now have their own names (`txtSub1`, `txtSub2`, `txtSub3`, and `txtRSub2`, `txtRSub3` for the grades). Marks of 80, 55 and 30 now give A, C and F. An empty box shows no grade, and the "Undefined array key" warnings are gone.
 - **`Calc.php`**: dividing by 0 shows "You cannot divide by zero." instead of a fatal error; the numbers are checked, the starting values are set (no "Undefined variable" warnings) and the values are escaped when written back into the page.
 - **`Home.php`**: the script stops (`exit`) after each redirect, so the page's content is no longer sent to a visitor who is not logged in, logout goes to `Logging.php` (the real file name) and the name is escaped. `Logging.php` also stops after its redirect and creates a new session id at login.
+- **`ArrayDemo.php` and `MultiDimensionalArrayDemo.php`**: the names and scores that come back from the cookies are escaped before they are printed (a cookie can be set by anyone).
 - **`MultiDimensionalArrayDemo.php`**: it had its own cookie name added (it shared `player` with `ArrayDemo.php`, so using one after the other gave warnings) and **Print All** printed every player twice because the same loop was there twice.
 
 ## Known issues (left as they were)
