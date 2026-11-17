@@ -14,17 +14,18 @@ WAD58RMS is a web-based application designed to manage and streamline restaurant
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/NuhaadhHasn/WAD58RMS.git
+    git clone https://github.com/NuhaadhHasn/WAD58.Practical.git
     ```
+    (the restaurant system is in the `WAD58RMS` folder of that repository)
 
-2. Copy the project to your Wampp/Xampp htdocs folder.
+2. Copy the `WAD58RMS` folder to your Wampp/Xampp htdocs folder.
 
 3. In phpMyAdmin create a database called `rms` and import `rms.sql`. The connection (`config/config.php`) is `root` with no password.
 
 4. Start the local server and navigate the the URL.
 
     ```bash
-    localhost/wad58rms
+    localhost/WAD58RMS
     ```
 
 ## Logins
